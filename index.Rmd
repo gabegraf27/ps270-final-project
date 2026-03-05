@@ -12,3 +12,18 @@ output:
 ## Project thoughts
 
 I am interested in exploring data related to national elections, public opinion, and/or political media. 
+
+For this project, I will be using a dataset from American National Election Studies (ANES) called Average Feeling Thermometer Rating Towards Presidential Candidates. My research question is whether the demographics of gender and age are strong indicators of feelings towards presidential candidates. My starting hypothesis to this question is that gender is a more revealing indicator of feelings toward presidential candidates than age due to issues like abortion that focus on women’s reproductive rights. This issue has been highly prevalent in recent presidential elections. The explanatory variables of this dataset, which are age and gender, are grouped together through samples that are the same gender and in the same age group. There are four distinct age groups in this dataset to measure age: 18 to 29, 30 to 44, 45 to 59, and 60 and older. The outcome variable in this dataset is feelings towards presidential candidates which is measured in four groups: feelings toward the Democratic candidate, feelings toward the Republican candidate, feelings toward both candidates, and net pro-Democratic and pro-Republican feelings. Data for these attitudes in every age/gender group span from the 1968 presidential election to the 2024 presidential election. In recent elections, Democratic candidates have fought for reproductive rights and women’s right to choose to get an abortion. Therefore, if my hypothesis is correct, observed data from recent elections would show many young women in specific having positive feelings for Democratic candidates instead of Republican candidates. If my hypothesis were to be disproven by this data, it would show a stark contrast in feeling towards candidates based on age group. This would indicate that age is a more telling factor of feelings towards presidential candidates. Test sentence version 2.
+
+
+
+```{r}
+library(tidyverse)
+my_data <- read_csv("The Guide to Public Opinion and Electoral Behavior.csv")
+```
+```{r}
+my_data |>
+  head()
+```
+
+
