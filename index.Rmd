@@ -25,5 +25,26 @@ my_data <- read_csv("The Guide to Public Opinion and Electoral Behavior.csv")
 my_data |>
   head()
 ```
+```{r}
+gender_demographic <- my_data |>
+  filter(Demographics == "gender",
+         Subgroup == "Women")
+gender_demographic
+```
 
 
+```{r}
+library(ggplot2)
+
+gender_plot <- ggplot(gender_demographic, aes(x = Year, y = `Net Pro Dem. - Pro Rep.`)) +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray") +
+  geom_line(color = "blue", linewidth = 1) + 
+  geom_point(color = "blue", size = 3) +
+  labs(
+    title = "Net Support Trends: Women (1968-2024)",
+    subtitle = "Values above 50 indicate a Democratic lean",
+    x = "Election Year",
+    y = "Net Support Score"
+  ) 
+gender_plot
+```

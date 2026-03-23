@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","The Guide to Public Opinion and Electoral Behavior.csv"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","The Guide to Public Opinion and Electoral Behavior.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1570,7 +1570,53 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 # ℹ 3 more variables: `Republican Candidate` &lt;dbl&gt;,
 #   `Both Candidates` &lt;dbl&gt;, `Net Pro Dem. - Pro Rep.` &lt;dbl&gt;</code></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>gender_demographic</span> <span class='op'>&lt;-</span> <span class='va'>my_data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Demographics</span> <span class='op'>==</span> <span class='st'>"gender"</span>,</span>
+<span>         <span class='va'>Subgroup</span> <span class='op'>==</span> <span class='st'>"Women"</span><span class='op'>)</span></span>
+<span><span class='va'>gender_demographic</span></span></code></pre>
+</div>
+<pre><code># A tibble: 15 × 8
+   Demographics Subgroup `Total Cases`  Year `Democratic Candidate`
+   &lt;chr&gt;        &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 gender       Women              737  1968                   64.5
+ 2 gender       Women             1488  1972                   50.6
+ 3 gender       Women             1252  1976                   64.3
+ 4 gender       Women              882  1980                   58.6
+ 5 gender       Women             1241  1984                   59.4
+ 6 gender       Women             1123  1988                   58.3
+ 7 gender       Women             1313  1992                   57.7
+ 8 gender       Women              941  1996                   62.9
+ 9 gender       Women             1002  2000                   59.4
+10 gender       Women              642  2004                   55  
+11 gender       Women             1312  2008                   59.2
+12 gender       Women             1166  2012                   58.2
+13 gender       Women             2220  2016                   45  
+14 gender       Women             4380  2020                   50.8
+15 gender       Women             2924  2024                   50.4
+# ℹ 3 more variables: `Republican Candidate` &lt;dbl&gt;,
+#   `Both Candidates` &lt;dbl&gt;, `Net Pro Dem. - Pro Rep.` &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>gender_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>gender_demographic</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>`Net Pro Dem. - Pro Rep.`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>50</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span>, color <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span>, linewidth <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Net Support Trends: Women (1968-2024)"</span>,</span>
+<span>    subtitle <span class='op'>=</span> <span class='st'>"Values above 50 indicate a Democratic lean"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Election Year"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Net Support Score"</span></span>
+<span>  <span class='op'>)</span> </span>
+<span><span class='va'>gender_plot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" alt="" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
