@@ -33,6 +33,7 @@ gender_demographic
 ```
 
 
+
 ```{r}
 library(ggplot2)
 
@@ -48,3 +49,16 @@ gender_plot <- ggplot(gender_demographic, aes(x = Year, y = `Net Pro Dem. - Pro 
   ) 
 gender_plot
 ```
+Based off of the data findings seen in this graph, the demographic of gender can be considered a strong indicator of feelings toward presidential candidates. Since the 1992 presidential election, women in the US have consistently been above a 50 net support score, indicating a lean towards Democratic candidates in elections. According to this data, the closest women have been in going below this value since 1992 was in the 2004 presidential election. But since 2004, the net support score for women in the US has steadily increased with the minor exception of the 2016 election where the value for this variable slightly decreased from the 2012 election. The graph has a positive trend above the 50 net support score value since 2004. Because values for this variable have been above 50 for the last nine elections, we can conclude that membership in the demographic of women in the US is a solid indicator of feelings toward presidential candidates. 
+
+```{r}
+candidate_support_means <- gender_demographic |>
+  filter(Year >= "1992") |>
+  summarize(
+    dem_candidates_mean = mean(`Democratic Candidate`),
+    rep_candidates_mean = mean(`Republican Candidate`),
+    net_support_score = mean(`Net Pro Dem. - Pro Rep.`)
+  )
+knitr::kable(candidate_support_means, digits = 2)
+```
+
