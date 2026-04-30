@@ -61,4 +61,53 @@ candidate_support_means <- gender_demographic |>
   )
 knitr::kable(candidate_support_means, digits = 2)
 ```
+## Research Question and Hypothesis 
+For this project, my research question was whether the demographic of age is a good predictor of feelings towards a presidential candidate. My hypothesis is that gender is in fact a good predictor due to the limiting of reproductive rights being a prevalent issue in recent elections. If more women are concerned about this issue, they will show support towards candidates that defend reproductive rights, who are typically Democrats. This would boost women's support for democratic candidates more than men since the issue directly applies to women. By analyzing data from American National Election Studies (ANES), I will be able to find an answer to my research question and more broadly understand trends relating to social group voting habits. This is important because these groups can make or break an election for a candidate. 
+
+## My Data
+As mentioned earlier, I obtained the research data for this project from ANES. The dataset itself is titled Average Feeling Thermometer Rating Towards Presidential Candidates. The dependent variable in this project is thermometer feelings towards presidential candidates and the independent variable is gender. All data showcasing how these variables have changed over time was collected through surveys asking how respondents of various demographics would rate presidential candidates. Because I want to assess whether gender is an adequate indicator of feelings towards a presidential candidate based on recent election data, this project is best described as having a cross-sectional design. While historical election data is relevant, I aim to determine if gender has been a good indicator in recent presidential elections. 
+
+Additionally, it is important to make clear that the predictor variable in this project is gender and outcome variable is feelings towards presidential candidates measured through thermometer ratings. The outcome variable of feelings towards presidential candidates is measured through the net support margin of the demographics surveyed in the study. For this project, the only demographic net support margins that will be analyzed are the ones measured on the basis of gender. For every presidential election dating back to 1968, the average net support margins were recorded for respondents who were both men and women. An average net support margin over 50 indicates a lean in towards the Democratic candidate in the given election, whereas values under 50 indicate a lean towards the Republican candidate. 
+```{r}
+men_women_demographics <- my_data |>
+  filter(Demographics == "gender")
+men_women_demographics
+
+support_plot <- ggplot(men_women_demographics, aes(x = Subgroup, y = `Net Pro Dem. - Pro Rep.`)) +
+  geom_col(position = "dodge") +
+  labs(x = "Gender", 
+       y = "Candidate Net Support")
+support_plot
+```
+## Results 
+Below are visualizations that show the relationships between my indicator and outcome variable, along with the regression output for my data. The line graph shows how feelings towards presidential candidates amongst women has changed throughout the years. This graph specifically focuses on the demographic of women as the predictor because of my hypothesis which states that the salience of reproductive rights in recent elections draws more women to support democratic presidential nominees. As seen in this graph, women's lean towards democratic candidates has been on rise since the 2004 presidential election - with an exception being in the 2016 when favorable attitudes towards the democratic candidate dipped below the average net support margin in the 2012 election. The two elections where women's support for the democratic nominee peaked are 1996 and 2024 presidential elections. 
+
+Additionally, the regression output reveals more about the statistical significance my coefficient of interest, which is the subgroup of women. For this regression analysis, any positive estimate value indicates a democratic lean. The intercept of 48.700 in this regression output indicates that men have had an overwhelming strong lean towards democratic presidential nominees. The estimate value for women, which is my coefficient of interest, reveals the difference in net support margins compared to men. In this case, the difference is 3.433, meaning that the true estimate value for women is 52.133. Substantively, this means that women on average show even higher levels of support for democratic presidential nominees than men. Although this may seem like a small difference, it is statistically significant. This is because the p-value, which is 0.011, is smaller than 0.05 which is a common value used for the basis of significance. Due to the fact that the p-value is smaller than this number, I am able to reject the null hypothesis of my experiment which would claim that difference in gender is not a good indicator of support for presidential nominees. Therefore, it is evident that there is a meaningful difference in political lean between men and women who participated in the ANES surveys and that the difference is not due by chance. 
+
+```{r}
+library(ggplot2)
+
+gender_plot <- ggplot(gender_demographic, aes(x = Year, y = `Net Pro Dem. - Pro Rep.`)) +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray") +
+  geom_line(color = "blue", linewidth = 1) + 
+  geom_point(color = "blue", size = 3) +
+  labs(
+    title = "Net Support Trends: Women (1968-2024)",
+    subtitle = "Values above 50 indicate a Democratic lean",
+    x = "Election Year",
+    y = "Net Support Score"
+  ) 
+gender_plot
+```
+
+```{r}
+fit <- lm(`Net Pro Dem. - Pro Rep.` ~ Subgroup, data = men_women_demographics)
+fit 
+broom::tidy(fit) |>
+  knitr::kable(digits = 3)
+```
+## Conclusion 
+In conclusion, my research findings from the ANES survey data indicate that women have held increasingly more favorable attitudes towards democratic presidential nominees in recent elections and that women have a stronger lean towards democratic nominees than men do. My findings do support my hypothesis, but I think more evidence is needed to better capture how gender influences support for presidential nominees. One confounding variable that could make my research findings inaccurate is selection bias within age. This is of concern particularly in data from recent elections that Gen-Z has been able to participate in. If the ANES survey collected data near these elections that did not include a vast spread of age groups or a spread that was more skewed towards Gen-Z respondents, the data would be distorted due to selection bias. Furthermore, if I had more time to work on this project I would conduct more analysis on men's feelings towards presidential candidates.
+
+
 

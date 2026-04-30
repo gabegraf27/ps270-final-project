@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","The Guide to Public Opinion and Electoral Behavior.csv"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","The Guide to Public Opinion and Electoral Behavior.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1645,7 +1645,110 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
+<p>For this project, my research question was whether the demographic of age is a good predictor of feelings towards a presidential candidate. My hypothesis is that gender is in fact a good predictor due to the limiting of reproductive rights being a prevalent issue in recent elections. If more women are concerned about this issue, they will show support towards candidates that defend reproductive rights, who are typically Democrats. This would boost women’s support for democratic candidates more than men since the issue directly applies to women. By analyzing data from American National Election Studies (ANES), I will be able to find an answer to my research question and more broadly understand trends relating to social group voting habits. This is important because these groups can make or break an election for a candidate.</p>
+<h2 id="my-data">My Data</h2>
+<p>As mentioned earlier, I obtained the research data for this project from ANES. The dataset itself is titled Average Feeling Thermometer Rating Towards Presidential Candidates. The dependent variable in this project is thermometer feelings towards presidential candidates and the independent variable is gender. All data showcasing how these variables have changed over time was collected through surveys asking how respondents of various demographics would rate presidential candidates. Because I want to assess whether gender is an adequate indicator of feelings towards a presidential candidate based on recent election data, this project is best described as having a cross-sectional design. While historical election data is relevant, I aim to determine if gender has been a good indicator in recent presidential elections.</p>
+Additionally, it is important to make clear that the predictor variable in this project is gender and outcome variable is feelings towards presidential candidates measured through thermometer ratings. The outcome variable of feelings towards presidential candidates is measured through the net support margin of the demographics surveyed in the study. For this project, the only demographic net support margins that will be analyzed are the ones measured on the basis of gender. For every presidential election dating back to 1968, the average net support margins were recorded for respondents who were both men and women. An average net support margin over 50 indicates a lean in towards the Democratic candidate in the given election, whereas values under 50 indicate a lean towards the Republican candidate.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>men_women_demographics</span> <span class='op'>&lt;-</span> <span class='va'>my_data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Demographics</span> <span class='op'>==</span> <span class='st'>"gender"</span><span class='op'>)</span></span>
+<span><span class='va'>men_women_demographics</span></span></code></pre>
+</div>
+<pre><code># A tibble: 30 × 8
+   Demographics Subgroup `Total Cases`  Year `Democratic Candidate`
+   &lt;chr&gt;        &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 gender       Men                574  1968                   58.1
+ 2 gender       Men               1151  1972                   47.1
+ 3 gender       Men                924  1976                   61.6
+ 4 gender       Men                663  1980                   53.9
+ 5 gender       Men                976  1984                   54.9
+ 6 gender       Men                860  1988                   54.7
+ 7 gender       Men               1150  1992                   54.3
+ 8 gender       Men                766  1996                   55.8
+ 9 gender       Men                786  2000                   54.6
+10 gender       Men                565  2004                   50.8
+# ℹ 20 more rows
+# ℹ 3 more variables: `Republican Candidate` &lt;dbl&gt;,
+#   `Both Candidates` &lt;dbl&gt;, `Net Pro Dem. - Pro Rep.` &lt;dbl&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>support_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>men_women_demographics</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Subgroup</span>, y <span class='op'>=</span> <span class='va'>`Net Pro Dem. - Pro Rep.`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Gender"</span>, </span>
+<span>       y <span class='op'>=</span> <span class='st'>"Candidate Net Support"</span><span class='op'>)</span></span>
+<span><span class='va'>support_plot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" alt="" width="624" /></p>
+</div>
+<h2 id="results">Results</h2>
+<p>Below are visualizations that show the relationships between my indicator and outcome variable, along with the regression output for my data. The line graph shows how feelings towards presidential candidates amongst women has changed throughout the years. This graph specifically focuses on the demographic of women as the predictor because of my hypothesis which states that the salience of reproductive rights in recent elections draws more women to support democratic presidential nominees. As seen in this graph, women’s lean towards democratic candidates has been on rise since the 2004 presidential election - with an exception being in the 2016 when favorable attitudes towards the democratic candidate dipped below the average net support margin in the 2012 election. The two elections where women’s support for the democratic nominee peaked are 1996 and 2024 presidential elections.</p>
+<p>Additionally, the regression output reveals more about the statistical significance my coefficient of interest, which is the subgroup of women. For this regression analysis, any positive estimate value indicates a democratic lean. The intercept of 48.700 in this regression output indicates that men have had an overwhelming strong lean towards democratic presidential nominees. The estimate value for women, which is my coefficient of interest, reveals the difference in net support margins compared to men. In this case, the difference is 3.433, meaning that the true estimate value for women is 52.133. Substantively, this means that women on average show even higher levels of support for democratic presidential nominees than men. Although this may seem like a small difference, it is statistically significant. This is because the p-value, which is 0.011, is smaller than 0.05 which is a common value used for the basis of significance. Due to the fact that the p-value is smaller than this number, I am able to reject the null hypothesis of my experiment which would claim that difference in gender is not a good indicator of support for presidential nominees. Therefore, it is evident that there is a meaningful difference in political lean between men and women who participated in the ANES surveys and that the difference is not due by chance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>gender_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>gender_demographic</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>`Net Pro Dem. - Pro Rep.`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>50</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span>, color <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span>, linewidth <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Net Support Trends: Women (1968-2024)"</span>,</span>
+<span>    subtitle <span class='op'>=</span> <span class='st'>"Values above 50 indicate a Democratic lean"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Election Year"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Net Support Score"</span></span>
+<span>  <span class='op'>)</span> </span>
+<span><span class='va'>gender_plot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" alt="" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>`Net Pro Dem. - Pro Rep.`</span> <span class='op'>~</span> <span class='va'>Subgroup</span>, data <span class='op'>=</span> <span class='va'>men_women_demographics</span><span class='op'>)</span></span>
+<span><span class='va'>fit</span> </span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = `Net Pro Dem. - Pro Rep.` ~ Subgroup, data = men_women_demographics)
+
+Coefficients:
+  (Intercept)  SubgroupWomen  
+       48.700          3.433  </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">48.700</td>
+<td style="text-align: right;">0.893</td>
+<td style="text-align: right;">54.540</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SubgroupWomen</td>
+<td style="text-align: right;">3.433</td>
+<td style="text-align: right;">1.263</td>
+<td style="text-align: right;">2.719</td>
+<td style="text-align: right;">0.011</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, my research findings from the ANES survey data indicate that women have held increasingly more favorable attitudes towards democratic presidential nominees in recent elections and that women have a stronger lean towards democratic nominees than men do. My findings do support my hypothesis, but I think more evidence is needed to better capture how gender influences support for presidential nominees. One confounding variable that could make my research findings inaccurate is selection bias within age. This is of concern particularly in data from recent elections that Gen-Z has been able to participate in. If the ANES survey collected data near these elections that did not include a vast spread of age groups or a spread that was more skewed towards Gen-Z respondents, the data would be distorted due to selection bias. Furthermore, if I had more time to work on this project I would conduct more analysis on men’s feelings towards presidential candidates.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
